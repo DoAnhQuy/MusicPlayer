@@ -9,7 +9,7 @@ import com.bumptech.glide.request.RequestOptions
 class NotificationReceiver:BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         when(intent?.action){
-            //only play next or prev song, when music list contains more than one song
+            //chỉ phát bài hát tiếp theo hoặc bài hát trước đó khi danh sách nhạc chứa nhiều hơn một bài hát
             ApplicationClass.PREVIOUS -> if(PlayerActivity.musicListPA.size > 1) prevNextSong(increment = false, context = context!!)
             ApplicationClass.PLAY -> if(PlayerActivity.isPlaying) pauseMusic() else playMusic()
             ApplicationClass.NEXT -> if(PlayerActivity.musicListPA.size > 1) prevNextSong(increment = true, context = context!!)
@@ -23,7 +23,7 @@ class NotificationReceiver:BroadcastReceiver() {
         PlayerActivity.musicService!!.mediaPlayer!!.start()
         PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)
         PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
-        //for handling app crash during notification play - pause btn (While app opened through intent)
+        //để xử lý sự cố ứng dụng trong khi phát thông báo - nút tạm dừng
         try{ NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon) }catch (_: Exception){}
     }
 
@@ -32,7 +32,6 @@ class NotificationReceiver:BroadcastReceiver() {
         PlayerActivity.musicService!!.mediaPlayer!!.pause()
         PlayerActivity.musicService!!.showNotification(R.drawable.play_icon)
         PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
-        //for handling app crash during notification play - pause btn (While app opened through intent)
         try{ NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.play_icon) }catch (_: Exception){}
     }
 

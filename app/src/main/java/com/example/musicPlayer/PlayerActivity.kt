@@ -71,7 +71,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         }
         else initializeLayout()
 
-        //audio booster feature
+        //tính năng tăng cường âm thanh
         binding.boosterBtnPA.setOnClickListener {
             val customDialogB = LayoutInflater.from(this).inflate(R.layout.audio_booster, binding.root, false)
             val bindingB = AudioBoosterBinding.bind(customDialogB)
@@ -169,7 +169,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             FavouriteActivity.favouritesChanged = true
         }
     }
-//Important Function
+//Chức năng quan trọng
     private fun initializeLayout(){
         songPosition = intent.getIntExtra("index", 0)
         when(intent.getStringExtra("class")){
@@ -294,7 +294,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         createMediaPlayer()
         setLayout()
 
-        //for refreshing now playing image & text on song completion
+        //làm mới hình ảnh đang phát và văn bản khi hoàn thành bài hát
         NowPlaying.binding.songNameNP.isSelected = true
         Glide.with(applicationContext)
             .load(musicListPA[songPosition].artUri)

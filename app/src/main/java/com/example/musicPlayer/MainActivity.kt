@@ -54,18 +54,18 @@ class MainActivity : AppCompatActivity() {
         setTheme(currentThemeNav[themeIndex])
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //for nav drawer
+        //điều hướng
         toggle = ActionBarDrawerToggle(this, binding.root,R.string.open, R.string.close)
         binding.root.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        //checking for dark theme
+        //kiểm tra chủ đề tối
         if(themeIndex == 4 &&  resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_NO)
             Toast.makeText(this, "Black Theme Works Best in Dark Mode!!", Toast.LENGTH_LONG).show()
 
         if(requestRuntimePermission()){
             initializeLayout()
-            //for retrieving favourites data using shared preferences
+            //lấy dữ liệu mục ưa thích bằng cách sử dụng tùy chọn chia sẻ
             FavouriteActivity.favouriteSongs = ArrayList()
             val editor = getSharedPreferences("FAVOURITES", MODE_PRIVATE)
             val jsonString = editor.getString("FavouriteSongs", null)
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-    //For requesting permission
+    // Yêu cầu cấp phép
     private fun requestRuntimePermission() :Boolean{
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
             if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         }else{
-            //android 13 or Higher permission request
+            //yêu cầu cấp quyền Android 13 trở lên
             if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_MEDIA_AUDIO), 13)
@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity() {
         binding.musicRV.adapter = musicAdapter
         binding.totalSongs.text  = "Total Songs : "+musicAdapter.itemCount
 
-        //for refreshing layout on swipe from top
+        // làm mới bố cục khi vuốt từ trên xuống
         binding.refreshLayout.setOnRefreshListener {
             MusicListMA = getAllAudio()
             musicAdapter.updateMusicList(MusicListMA)
@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
     private fun getAllAudio(): ArrayList<Music> {
         val tempList = ArrayList<Music>()
 
-        // Filter Only Music or Audio Files
+        // Chỉ lọc nhạc hoặc tệp âm thanh
         val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0 AND " + MediaStore.Audio.Media.MIME_TYPE + " LIKE 'audio/%'"
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
@@ -214,7 +214,7 @@ class MainActivity : AppCompatActivity() {
                     val uri = Uri.parse("content://media/external/audio/albumart")
                     val artUriC = Uri.withAppendedPath(uri, albumIdC).toString()
 
-                    // Only add the music file if the duration is greater than 0
+                    // Chỉ thêm tệp nhạc nếu thời lượng lớn hơn 0
                     if (durationC > 0) {
                         val music = Music(
                             id = idC,
@@ -246,7 +246,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        //for storing favourites data using shared preferences
+        //lưu trữ dữ liệu mục ưa thích bằng cách sử dụng tùy chọn chia sẻ
         val editor = getSharedPreferences("FAVOURITES", MODE_PRIVATE).edit()
         val jsonString = GsonBuilder().create().toJson(FavouriteActivity.favouriteSongs)
         editor.putString("FavouriteSongs", jsonString)
@@ -254,7 +254,7 @@ class MainActivity : AppCompatActivity() {
         editor.putString("MusicPlaylist", jsonStringPlaylist)
         editor.apply()
 
-        //for sorting
+        //phân loại
         val sortEditor = getSharedPreferences("SORTING", MODE_PRIVATE)
         val sortValue = sortEditor.getInt("sortOrder", 0)
         if(sortOrder != sortValue){
@@ -267,7 +267,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_view_menu, menu)
-        //for setting gradient
+        //thiết lập độ dốc
         findViewById<LinearLayout>(R.id.linearLayoutNav)?.setBackgroundResource(currentGradient[themeIndex])
 
         val searchView = menu?.findItem(R.id.searchView)?.actionView as SearchView

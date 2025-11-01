@@ -97,38 +97,38 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
             mediaSession.setPlaybackState(getPlayBackState())
             mediaSession.setCallback(object : MediaSessionCompat.Callback() {
 
-                //called when play button is pressed
+                //được gọi khi nút phát được nhấn
                 override fun onPlay() {
                     super.onPlay()
                     handlePlayPause()
                 }
 
-                //called when pause button is pressed
+                //được gọi khi nút tạm dừng được nhấn
                 override fun onPause() {
                     super.onPause()
                     handlePlayPause()
                 }
 
-                //called when next button is pressed
+                //được gọi khi nhấn nút tiếp theo
                 override fun onSkipToNext() {
                     super.onSkipToNext()
                     prevNextSong(increment = true, context = baseContext)
                 }
 
-                //called when previous button is pressed
+                //được gọi khi nút trước đó được nhấn
                 override fun onSkipToPrevious() {
                     super.onSkipToPrevious()
                     prevNextSong(increment = false, context = baseContext)
                 }
 
-                //called when headphones buttons are pressed
-                //currently only pause or play music on button click
+                //được gọi khi các nút tai nghe được nhấn
+                //hiện tại chỉ tạm dừng hoặc phát nhạc khi nhấp vào nút
                 override fun onMediaButtonEvent(mediaButtonEvent: Intent?): Boolean {
                     handlePlayPause()
                     return super.onMediaButtonEvent(mediaButtonEvent)
                 }
 
-                //called when seekbar is changed
+                //được gọi khi thanh tìm kiếm được thay đổi
                 override fun onSeekTo(pos: Long) {
                     super.onSeekTo(pos)
                     mediaPlayer?.seekTo(pos.toInt())
@@ -188,7 +188,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
         if (PlayerActivity.isPlaying) pauseMusic()
         else playMusic()
 
-        //update playback state for notification
+        //cập nhật trạng thái phát lại để thông báo
         mediaSession.setPlaybackState(getPlayBackState())
     }
 
@@ -219,7 +219,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
         if(PlayerActivity.isFavourite) PlayerActivity.binding.favouriteBtnPA.setImageResource(R.drawable.favourite_icon)
         else PlayerActivity.binding.favouriteBtnPA.setImageResource(R.drawable.favourite_empty_icon)
 
-        //update playback state for notification
+        //cập nhật trạng thái phát lại để thông báo
         mediaSession.setPlaybackState(getPlayBackState())
     }
 
@@ -233,7 +233,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
     }
 
     private fun playMusic(){
-        //play music
+        //chơi nhạc
         PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
         NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)
         PlayerActivity.isPlaying = true
@@ -242,7 +242,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
     }
 
     private fun pauseMusic(){
-        //pause music
+        //dừng nhạc
         PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
         NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)
         PlayerActivity.isPlaying = false
@@ -251,9 +251,6 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
     }
 
 
-
-
-    //for making persistent
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_STICKY
     }

@@ -23,7 +23,7 @@ class SelectionActivity : AppCompatActivity() {
         adapter = MusicAdapter(this, MainActivity.MusicListMA, selectionActivity = true)
         binding.selectionRV.adapter = adapter
         binding.backBtnSA.setOnClickListener { finish() }
-        //for search View
+        //tìm kiếm view
         binding.searchViewSA.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean = true
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -43,7 +43,7 @@ class SelectionActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        //for black theme checking
+        //kiểm tra chủ đề màu đen
         if(MainActivity.themeIndex == 4)
         {
             binding.searchViewSA.backgroundTintList = ContextCompat.getColorStateList(this, R.color.white)

@@ -17,6 +17,6 @@ class AboutActivity : AppCompatActivity() {
         binding.aboutText.text = aboutText()
     }
     private fun aboutText(): String{
-        return "Thank you"
+        return ""
     }
 }

@@ -1,5 +1,6 @@
 package com.example.musicPlayer
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -46,7 +47,7 @@ private val selectionActivity: Boolean = false)
             .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
             .into(holder.image)
 
-        //for play next feature
+        //tính năng tiếp theo
         if(!selectionActivity)
             holder.root.setOnLongClickListener {
                 val customDialog = LayoutInflater.from(context).inflate(R.layout.more_features, holder.root, false)
@@ -129,6 +130,7 @@ private val selectionActivity: Boolean = false)
         return musicList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateMusicList(searchList : ArrayList<Music>){
         musicList = ArrayList()
         musicList.addAll(searchList)
@@ -150,6 +152,7 @@ private val selectionActivity: Boolean = false)
         PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.add(song)
         return true
     }
+    @SuppressLint("NotifyDataSetChanged")
     fun refreshPlaylist(){
         musicList = ArrayList()
         musicList = PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist

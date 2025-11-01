@@ -5,13 +5,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
 
-    <!-- Audio Permission for android 13 or higher -->
+    <!-- Quyền âm thanh cho Android 13 trở lên -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
 
-    <!-- Notification-->
+    <!-- Thông báo-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <!-- Notification Permission for Android 14 -->
+    <!-- Quyền thông báo cho Android 14 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
 
 
@@ -100,7 +100,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Updated Permission for Android 14   -->
+        <!-- Quyền được cập nhật cho Android 14   -->
         <service
             android:name=".MusicService"
             android:foregroundServiceType="mediaPlayback"

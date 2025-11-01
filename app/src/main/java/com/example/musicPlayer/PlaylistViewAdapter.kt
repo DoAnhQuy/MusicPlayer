@@ -1,5 +1,6 @@
 package com.example.musicPlayer
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -63,6 +64,7 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
     override fun getItemCount(): Int {
         return playlistList.size
     }
+    @SuppressLint("NotifyDataSetChanged")
     fun refreshPlaylist(){
         playlistList = ArrayList()
         playlistList.addAll(PlaylistActivity.musicPlaylist.ref)
