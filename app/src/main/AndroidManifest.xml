@@ -2,18 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-
-    <!-- Quyền âm thanh cho Android 13 trở lên -->
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-
-    <!-- Thông báo-->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-    <!-- Quyền thông báo cho Android 14 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
-
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" /> <!-- Quyền âm thanh cho Android 13 trở lên -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" /> <!-- Thông báo -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Quyền thông báo cho Android 14 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".ApplicationClass"
@@ -25,47 +20,50 @@
         android:supportsRtl="true"
         android:theme="@style/splash_screen"
         tools:ignore="AllowBackup">
-
+        <activity
+            android:name=".SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".PlayNext"
             android:exported="false" />
-
         <activity
             android:name=".AboutActivity"
-            android:screenOrientation="sensorPortrait"
             android:configChanges="uiMode|orientation"
+            android:screenOrientation="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
-
         <activity
             android:name=".SettingsActivity"
-            android:screenOrientation="sensorPortrait"
             android:configChanges="uiMode|orientation"
+            android:screenOrientation="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
-
         <activity
             android:name=".SelectionActivity"
-            android:screenOrientation="sensorPortrait"
             android:configChanges="uiMode|orientation"
+            android:screenOrientation="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
-
         <activity
             android:name=".PlaylistDetails"
-            android:screenOrientation="sensorPortrait"
             android:configChanges="uiMode|orientation"
+            android:screenOrientation="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
-
         <activity
             android:name=".PlaylistActivity"
-            android:screenOrientation="sensorPortrait"
             android:configChanges="uiMode|orientation"
+            android:screenOrientation="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
-
         <activity
             android:name=".FavouriteActivity"
-            android:screenOrientation="sensorPortrait"
             android:configChanges="uiMode|orientation"
+            android:screenOrientation="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
-
         <activity
             android:name=".PlayerActivity"
             android:configChanges="uiMode|orientation"
@@ -85,27 +83,18 @@
                     android:scheme="content" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode|orientation"
             android:exported="true"
-            android:screenOrientation="sensorPortrait"
             android:launchMode="singleTask"
+            android:screenOrientation="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <!-- Quyền được cập nhật cho Android 14   -->
+        </activity> <!-- Quyền được cập nhật cho Android 14 -->
         <service
             android:name=".MusicService"
-            android:foregroundServiceType="mediaPlayback"
             android:exported="false"
-            />
+            android:foregroundServiceType="mediaPlayback" />
 
         <receiver
             android:name=".NotificationReceiver"

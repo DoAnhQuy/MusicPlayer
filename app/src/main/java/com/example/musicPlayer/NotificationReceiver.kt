@@ -20,7 +20,7 @@ class NotificationReceiver:BroadcastReceiver() {
     }
     private fun playMusic(){
         PlayerActivity.isPlaying = true
-        PlayerActivity.musicService!!.mediaPlayer!!.start()
+        MusicService.mediaPlayer!!.start()
         PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)
         PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
         //để xử lý sự cố ứng dụng trong khi phát thông báo - nút tạm dừng
@@ -29,7 +29,7 @@ class NotificationReceiver:BroadcastReceiver() {
 
     private fun pauseMusic(){
         PlayerActivity.isPlaying = false
-        PlayerActivity.musicService!!.mediaPlayer!!.pause()
+        MusicService.mediaPlayer!!.pause()
         PlayerActivity.musicService!!.showNotification(R.drawable.play_icon)
         PlayerActivity.binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
         try{ NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.play_icon) }catch (_: Exception){}

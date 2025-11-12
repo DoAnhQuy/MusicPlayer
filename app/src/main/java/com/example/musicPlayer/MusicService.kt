@@ -17,11 +17,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
+    companion object {
+        var mediaPlayer: MediaPlayer? = null
+        var audioManager: AudioManager? = null
+    }
+
     private var myBinder = MyBinder()
-    var mediaPlayer: MediaPlayer? = null
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var runnable: Runnable
-    lateinit var audioManager: AudioManager
+
 
     override fun onBind(intent: Intent?): IBinder {
         mediaSession = MediaSessionCompat(baseContext, "My Music")
@@ -252,7 +256,12 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer()
+
+        }
         return START_STICKY
     }
+
 
 }

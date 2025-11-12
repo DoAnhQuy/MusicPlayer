@@ -1,5 +1,11 @@
 [versions]
 agp = "8.5.2"
+appcompatVersion = "1.6.1"
+audiovisualizer = "0.9.2"
+audioVisualizerAndroid = "1.0.2"
+audiovisualizerVersion = "2.2.5"
+firebaseBom = "33.1.1"
+githubAudioVisualizer = "2.2.5"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 appcompat = "1.7.0"
@@ -12,11 +18,22 @@ glide = "4.16.0"
 media = "1.7.0"
 gson = "2.10.1"
 verticalseekbar = "1.2.7"
+googleGmsGoogleServices = "4.4.4"
+firebaseFirestore = "26.0.2"
+firebaseAuthKtx = "24.0.1"
 
 
 [libraries]
+androidx-appcompat-v161 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+audio-visualizer = { module = "com.github.Gauravk.Bubble-Visualizer:audio-visualizer", version.ref = "githubAudioVisualizer" }
+audio-visualizer-android = { module = "com.github.chandreshandroid:audio-visualizer-android", version.ref = "audioVisualizerAndroid" }
+audiovisualizer = { module = "com.gauravk.audiovisualizer:audiovisualizer", version.ref = "audiovisualizer" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+gautamchibde-audiovisualizer = { module = "io.github.gautamchibde:audiovisualizer", version.ref = "audiovisualizerVersion" }
+google-firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
@@ -26,8 +43,11 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 androidx-media = { group = "androidx.media", name = "media", version.ref = "media" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 verticalseekbar = { group = "com.github.lukelorusso", name = "VerticalSeekBar", version.ref = "verticalseekbar" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

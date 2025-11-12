@@ -64,13 +64,13 @@ class NowPlaying : Fragment() {
 
     private fun playMusic(){
         PlayerActivity.isPlaying = true
-        PlayerActivity.musicService!!.mediaPlayer!!.start()
+        MusicService.mediaPlayer!!.start()
         binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)
         PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)
     }
     private fun pauseMusic(){
         PlayerActivity.isPlaying = false
-        PlayerActivity.musicService!!.mediaPlayer!!.pause()
+        MusicService.mediaPlayer!!.pause()
         binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)
         PlayerActivity.musicService!!.showNotification(R.drawable.play_icon)
     }

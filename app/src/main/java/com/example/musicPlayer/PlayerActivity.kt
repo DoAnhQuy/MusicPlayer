@@ -13,11 +13,11 @@ import android.media.MediaPlayer
 import android.media.audiofx.AudioEffect
 import android.media.audiofx.LoudnessEnhancer
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.provider.MediaStore
 import android.view.LayoutInflater
+import android.view.animation.Animation
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.Toast
@@ -29,15 +29,18 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.example.musicPlayer.databinding.ActivityPlayerBinding
 import com.example.musicPlayer.databinding.AudioBoosterBinding
+import android.view.animation.AnimationUtils
 
 class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionListener {
 
 
     companion object {
         lateinit var musicListPA : ArrayList<Music>
+        lateinit var rotateAnimation: Animation
+        var musicService: MusicService? = null
+
         var songPosition: Int = 0
         var isPlaying:Boolean = false
-        var musicService: MusicService? = null
         @SuppressLint("StaticFieldLeak")
         lateinit var binding: ActivityPlayerBinding
         var repeat: Boolean = false
@@ -54,6 +57,11 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(MainActivity.currentTheme[MainActivity.themeIndex])
+
+        // chi load animation , khong chay
+        rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate_anim)
+
+
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if(intent.data?.scheme.contentEquals("content")){
@@ -101,7 +109,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         binding.seekBarPA.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
-                    musicService!!.mediaPlayer!!.seekTo(progress)
+                    MusicService.mediaPlayer!!.seekTo(progress)
                     musicService!!.showNotification(if(isPlaying) R.drawable.pause_icon else R.drawable.play_icon)
                 }
             }
@@ -120,7 +128,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         binding.equalizerBtnPA.setOnClickListener {
         try {
             val eqIntent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
-            eqIntent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, musicService!!.mediaPlayer!!.audioSessionId)
+            eqIntent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, MusicService.mediaPlayer!!.audioSessionId)
             eqIntent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, baseContext.packageName)
             eqIntent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
             startActivityForResult(eqIntent, 13)
@@ -175,10 +183,10 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         when(intent.getStringExtra("class")){
             "NowPlaying"->{
                 setLayout()
-                binding.tvSeekBarStart.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
-                binding.tvSeekBarEnd.text = formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
-                binding.seekBarPA.progress = musicService!!.mediaPlayer!!.currentPosition
-                binding.seekBarPA.max = musicService!!.mediaPlayer!!.duration
+                binding.tvSeekBarStart.text = formatDuration(MusicService.mediaPlayer!!.currentPosition.toLong())
+                binding.tvSeekBarEnd.text = formatDuration(MusicService.mediaPlayer!!.duration.toLong())
+                binding.seekBarPA.progress = MusicService.mediaPlayer!!.currentPosition
+                binding.seekBarPA.max = MusicService.mediaPlayer!!.duration
                 if(isPlaying) binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
                 else binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
             }
@@ -225,34 +233,39 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
 
     private fun createMediaPlayer(){
         try {
-            if (musicService!!.mediaPlayer == null) musicService!!.mediaPlayer = MediaPlayer()
-            musicService!!.mediaPlayer!!.reset()
-            musicService!!.mediaPlayer!!.setDataSource(musicListPA[songPosition].path)
-            musicService!!.mediaPlayer!!.prepare()
-            binding.tvSeekBarStart.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
-            binding.tvSeekBarEnd.text = formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
+            if (MusicService.mediaPlayer == null) MusicService.mediaPlayer = MediaPlayer()
+            MusicService.mediaPlayer!!.reset()
+            MusicService.mediaPlayer!!.setDataSource(musicListPA[songPosition].path)
+            MusicService.mediaPlayer!!.prepare()
+            binding.tvSeekBarStart.text = formatDuration(MusicService.mediaPlayer!!.currentPosition.toLong())
+            binding.tvSeekBarEnd.text = formatDuration(MusicService.mediaPlayer!!.duration.toLong())
             binding.seekBarPA.progress = 0
-            binding.seekBarPA.max = musicService!!.mediaPlayer!!.duration
-            musicService!!.mediaPlayer!!.setOnCompletionListener(this)
+            binding.seekBarPA.max = MusicService.mediaPlayer!!.duration
+            MusicService.mediaPlayer!!.setOnCompletionListener(this)
             nowPlayingId = musicListPA[songPosition].id
             playMusic()
-            loudnessEnhancer = LoudnessEnhancer(musicService!!.mediaPlayer!!.audioSessionId)
+            loudnessEnhancer = LoudnessEnhancer(MusicService.mediaPlayer!!.audioSessionId)
             loudnessEnhancer.enabled = true
         }catch (e: Exception){Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show()}
     }
 
     private fun playMusic(){
         isPlaying = true
-        musicService!!.mediaPlayer!!.start()
+        MusicService.mediaPlayer!!.start()
         binding.playPauseBtnPA.setIconResource(R.drawable.pause_icon)
         musicService!!.showNotification(R.drawable.pause_icon)
+        // tiep tuc quay
+        binding.songImgPA.startAnimation(rotateAnimation)
     }
 
     private fun pauseMusic(){
         isPlaying = false
-        musicService!!.mediaPlayer!!.pause()
+        MusicService.mediaPlayer!!.pause()
         binding.playPauseBtnPA.setIconResource(R.drawable.play_icon)
         musicService!!.showNotification(R.drawable.play_icon)
+        // dung quay dia
+        binding.songImgPA.clearAnimation()
+
 
 
     }
@@ -276,8 +289,8 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         if(musicService == null){
             val binder = service as MusicService.MyBinder
             musicService = binder.currentService()
-            musicService!!.audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-            musicService!!.audioManager.requestAudioFocus(musicService, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+            MusicService.audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+            MusicService.audioManager!!.requestAudioFocus(musicService, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
             }
         createMediaPlayer()
         musicService!!.seekBarSetup()
@@ -371,5 +384,16 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         if(shuffle) musicListPA.shuffle()
         setLayout()
         if(!playNext) PlayNext.playNextList = ArrayList()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (MusicService.mediaPlayer != null && MusicService.mediaPlayer!!.isPlaying) {
+            binding.songImgPA.startAnimation(rotateAnimation)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 }

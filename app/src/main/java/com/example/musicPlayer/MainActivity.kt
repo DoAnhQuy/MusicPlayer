@@ -24,12 +24,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.example.musicPlayer.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var musicAdapter: MusicAdapter
+    private lateinit var auth: FirebaseAuth
 
     companion object{
         lateinit var MusicListMA : ArrayList<Music>
@@ -49,6 +51,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = FirebaseAuth.getInstance()
+
+        // Chuyển về màn hình đăng nhập nếu chưa đăng nhập
+        if (auth.currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
+
+        // Ví dụ: hiển thị lời chào bằng Toast
+        Toast.makeText(this, "Chào mừng bạn đến với ứng dụng!", Toast.LENGTH_SHORT).show()
+
+//        // Xử lý nút đăng xuất
+//        binding.btnLogout.setOnClickListener {
+//            auth.signOut()
+//            val intent = Intent(this, LoginActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
+
         val themeEditor = getSharedPreferences("THEMES", MODE_PRIVATE)
         themeIndex = themeEditor.getInt("themeIndex", 0)
         setTheme(currentThemeNav[themeIndex])
@@ -103,6 +125,13 @@ class MainActivity : AppCompatActivity() {
 //                R.id.navFeedback -> startActivity(Intent(this@MainActivity, FeedbackActivity::class.java))
                 R.id.navSettings -> startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
                 R.id.navAbout -> startActivity(Intent(this@MainActivity, AboutActivity::class.java))
+                R.id.navLogout -> {
+                    auth.signOut()
+                    val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
+                }
                 R.id.navExit -> {
                     val builder = MaterialAlertDialogBuilder(this)
                     builder.setTitle("Exit")

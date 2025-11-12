@@ -62,12 +62,28 @@ fun setSongPosition(increment: Boolean) {
 }
 
 fun exitApplication() {
+    //Kiểm tra service INSTANCE (nằm trong companion object của PlayerActivity)
     if (PlayerActivity.musicService != null) {
-        PlayerActivity.musicService!!.audioManager.abandonAudioFocus(PlayerActivity.musicService)
+
+        //Gọi hàm stopForeground() TRÊN INSTANCE
         PlayerActivity.musicService!!.stopForeground(true)
-        PlayerActivity.musicService!!.mediaPlayer!!.release()
+
+        //Lấy biến TĨNH audioManager từ MusicService
+        if (MusicService.audioManager != null) {
+            MusicService.audioManager!!.abandonAudioFocus(PlayerActivity.musicService)
+        }
+
+        //Lấy biến TĨNH mediaPlayer từ MusicService
+        if (MusicService.mediaPlayer != null) {
+            MusicService.mediaPlayer!!.release()
+            MusicService.mediaPlayer = null // Hủy biến tĩnh
+        }
+
+        //Hủy INSTANCE (giờ đã là 'var' nên gán được)
         PlayerActivity.musicService = null
     }
+
+    //Thoát ứng dụng
     exitProcess(1)
 }
 

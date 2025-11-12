@@ -21,7 +21,7 @@
             android:id="@+id/backBtnPA"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/back_icon"
+            app:srcCompat="@drawable/back_icon"
             android:background="?attr/selectableItemBackground"
             android:layout_marginStart="5dp"
             android:contentDescription="@string/back_btn"
@@ -44,24 +44,33 @@
             android:id="@+id/favouriteBtnPA"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/favourite_empty_icon"
+            app:srcCompat="@drawable/favourite_empty_icon"
             android:background="?attr/selectableItemBackground"
             android:layout_marginEnd="20dp"
             android:contentDescription="@string/favourites_btn"
             app:tint="@android:color/holo_red_dark" />
     </LinearLayout>
 
-<!--    Current Song Image-->
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/songImgPA"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_margin="10dp"
-        android:padding="5dp"
-        android:src="@drawable/music_player_icon_slash_screen"
-        app:shapeAppearanceOverlay="@style/curved"
-        app:strokeColor="@color/cool_blue"
-        app:strokeWidth="5dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/songImgPA"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            app:srcCompat="@drawable/music_player_icon_slash_screen"
+            app:shapeAppearanceOverlay="@style/Style.App.Circular"
+            app:strokeColor="@color/cool_blue"
+            app:strokeWidth="5dp" />
+
+
+    </FrameLayout>
 
 <!--    Current Song Name-->
     <TextView
@@ -161,7 +170,7 @@
             android:id="@+id/repeatBtnPA"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/repeat_icon"
+            app:srcCompat="@drawable/repeat_icon"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/repeat_btn"
             android:layout_weight="1"
@@ -173,7 +182,7 @@
             android:id="@+id/equalizerBtnPA"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/equalizer_icon"
+            app:srcCompat="@drawable/equalizer_icon"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/equalizer_btn"
             android:layout_weight="1"
@@ -184,7 +193,7 @@
             android:id="@+id/timerBtnPA"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/timer_icon"
+            app:srcCompat="@drawable/timer_icon"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/timer_btn"
             android:layout_weight="1"
@@ -195,7 +204,7 @@
             android:id="@+id/shareBtnPA"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/share_icon"
+            app:srcCompat="@drawable/share_icon"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/share_btn"
             android:layout_weight="1"
@@ -207,7 +216,7 @@
             android:id="@+id/boosterBtnPA"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/volume_icon"
+            app:srcCompat="@drawable/volume_icon"
             android:background="?attr/selectableItemBackground"
             android:contentDescription="@string/share_btn"
             android:layout_weight="1"

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1046532920585",
+    "project_id": "music-c08bb",
+    "storage_bucket": "music-c08bb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046532920585:android:ee2ef160b404224e9d6fd8",
+        "android_client_info": {
+          "package_name": "com.example.musicPlayer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4eUZ1Thk-2QCKHYYiqE6QX1365mdj2UY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046532920585:android:90818db82a58d8599d6fd8",
+        "android_client_info": {
+          "package_name": "com.example.nha"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4eUZ1Thk-2QCKHYYiqE6QX1365mdj2UY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
